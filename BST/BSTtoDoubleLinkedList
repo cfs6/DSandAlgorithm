@@ -1,0 +1,84 @@
+#include<vector>
+#include<stack>
+#define TreeNode<T>* TNode<T>
+#define DLList<T>* DL<T>
+//in status -1 means visited,1 means not visited
+enum stauts{1,-1}
+template<typename T>
+struct TreeNode{
+	T val;
+	int status;
+	TreeNode* lc;
+	TreeNode* rc;
+	TreeNode* parent;
+	TreeNode(){val = NULL, lc = NULL, rc = NULL, parent = NULL;}
+	TreeNode(T v):val(v),lc(NULL),rc(NULL),parent(NULL){}
+}
+template<typename T>
+class DLList{
+public:
+	T listVal;
+	DLList* fore;
+	DLList* back;
+	DLList(T v):listVal(v),pre(NULL),post(NULL){}
+	bool insert(const T& v){
+		DLList<T> newNode = new DLList<T>();
+		if(!newNode)
+			return false;
+		while(this->back != NULL){
+			this = this->back;
+		}
+		this->post = newNode;
+		newNode->fore = this;
+		return true;-
+	}
+};
+template<typename T>
+DL<T> bstToDLList(TNode<T> root){
+	stack<TNode<T>> lStack;
+	TNode<T> hot;
+//	hot = root->parent;
+	DL<T> newList = new DL<T>();
+	lStack.push(root);
+	while(root->lc){
+		root = root->lc;
+		lStack.push(root);
+	}
+//	DLList<T> newList = new DL<T>(lStack.top());
+	while(root->rc){
+		newList.insert(lStack.top());
+		lStack.pop();
+		root->status = -1;
+		root = root->rc;
+		lStack.push(root);
+		while(root->lc){
+			root = root->lc;
+			lStack.push(root);
+		}
+		
+	}
+	while((!lStakc.empty()) && ((!root->lc)||(root->lc->status==-1)) && ((!root->rc)||(root->rc->status==-1))){
+		if(root->status ==1){
+			newList.insert(lStack.top());
+			lStack.pop();
+			root->status = -1;
+		}
+		root = root->parent;
+		while((root->rc)&&(root->rc->status==1){
+			newList.insert(lStack.top());
+			lStack.pop();
+			root->status = -1;
+			root = root->rc;
+			lStack.push(root);
+			while((root->lc)&&(root->lc->status==1){
+				root = root->lc;
+				lStack.push(root);
+			}
+		}
+		
+	}
+	return newList->back;
+}
+
+
+
